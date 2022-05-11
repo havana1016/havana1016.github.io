@@ -59,7 +59,7 @@ h1, h2, h3, h4, h5, h6 {
   overflow-y: auto;
 }
 #header * {
-  transition: ease-in-out 0.3s;
+  transition: ease-in-out 0.6s;
 }
 #header h1 {
   font-size: 48px;
@@ -292,7 +292,7 @@ section {
   top: 140px;
   bottom: 100%;
   opacity: 0;
-  transition: ease-in-out 0.4s;
+  transition: ease-in-out 0.6s;
   z-index: 2;
 }
 section.section-show {
@@ -301,14 +301,11 @@ section.section-show {
   opacity: 1;
   padding-bottom: 45px;
 }
-/*section .container {
-  background: rgba(0, 0, 0, 1);
+section .container {
+  background: rgba(0, 0, 0, 0.7);
   padding: 30px;
-}*/
-/*.container #hss{
-  background: rgba(0, 0, 0, 0);
-  padding: 30px;
-}*/
+}
+
 
 @media (max-width: 768px) {
   section {
@@ -687,8 +684,8 @@ section.section-show {
   font-weight: 600;
   line-height: 1;
   text-transform: uppercase;
-  color: #7c7d7e;
-  background: rgba(255, 255, 255, 0.1);
+  color: #080808;
+  background: rgba(255, 255, 255, 0.5);
   margin: 0 3px 10px 3px;
   transition: all 0.3s ease-in-out;
   border-radius: 4px;
