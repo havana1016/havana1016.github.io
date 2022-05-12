@@ -338,12 +338,13 @@
         </div>
 
             <div class="item">
-                <input class="form-control inputbox" id="input-repw" onkeyup="repwc()" 
-                type="password" placeholder="Password" maxlength="12">
                 <div class="input-group" >
-                    <p class="uptext" id="up-repw"></p>
-                    <button id="repwb" class="form-control input-group-text btn btn-outline bi bi-eye" onclick="seerepw();" type="button"></button>
+                <input class="form-control inputbox bi bi-eye" id="input-repw" onkeyup="repwc()" 
+                type="password" placeholder="Password" maxlength="12">
+                <button id="repwb" class="input-group-text btn btn-outline bi bi-eye" onclick="seerepw();" type="button"></button>
             </div>
+                   <div class="col-8 uptext" id="up-repw"></div>
+                   <div class="col-4 bi bi-eye"></div>
         </div>
             <div class="item">
                 <div class="input-group" >
@@ -367,10 +368,10 @@
             </div>
             <div class="col-4">
               <div class=>
-                <select class="form-select" id="mail-sel" onchange="resetmail()" onclick="yesmail()">  <!---->
-                  <option selected disabled="disabled" value="E-mail">Server</option>
+                <select class="form-select" id="mail-sel" onchange="" onclick="yesmail()">  <!---->
+                  <option selected disabled="disabled">Server</option>
                   <option value="@gmail.com" >Google</option>
-                  <option value="@naver.com" >Naver</option>
+                  <option value="@naver.com" onclick="resetmail()">Naver</option>
                   <option value="@daum.net" >Daum</option>
                   <option value>직접입력</option>
                 </select>
