@@ -88,11 +88,14 @@
         function upemail() {
             document.getElementById("up-email").innerHTML = "영문,숫자,특수문자 4~20자"
         }
-        function uptel() {
-            document.getElementById("up-tel").innerHTML = "숫자만 3자리"
+        function uptel1() {
+            document.getElementById("up-tel1").innerHTML = "숫자만 3자리"
         }
-        function uptel() {
-            document.getElementById("up-tel").innerHTML = "숫자만 4자리"
+        function uptel2() {
+            document.getElementById("up-tel2").innerHTML = "숫자만 4자리"
+        }
+        function uptel3() {
+            document.getElementById("up-tel3").innerHTML = "숫자만 4자리"
         }
 
         function idc() {
@@ -308,10 +311,17 @@
         function telc() {
             let inputid = document.getElementById("tel1");
             let id = inputid.value;
-            let upid = document.getElementById("up-tel")
+            let upid = document.getElementById("up-tel1")
             let tel2=document.getElementById("tel2")
-            const exp = /^(?=.*[\d])[\d]{3,3}$/
-            
+            let tel3=document.getElementById("tel3")
+            const exp = /^(?=.*[0])(?=.*[1])(?=.*[0 1 6 7 8 9]){3}$/
+            if(id==0){
+                inputid.className = ("form-control is-invalid")
+                tel2.setAttribute("disabled","disabled")
+                tel3.setAttribute("disabled","disabled")
+                upid.innerHTML = "필수 입력입니다."
+                upid.style.color = "red"
+            }else{
 
 
             if (id.match(exp)) {
@@ -324,16 +334,16 @@
             } else if (!id.match(exp)) {
                 inputid.className = ("form-control is-invalid")
                 tel2.setAttribute("disabled","disabled")
-                upid.innerHTML = "숫자만 3자리"
+                upid.innerHTML = "잘못된 형식입니다."
                 upid.style.color = "red"
-            }
+            }}
         }
         function tel2c() {
             let inputid = document.getElementById("tel2");
             let id = inputid.value;
-            let upid = document.getElementById("up-tel")
+            let upid = document.getElementById("up-tel2")
             let tel2=document.getElementById("tel3")
-            const exp = /^(?=.*[\d])[\d]{4,4}$/
+            const exp = /^(?=.*[2 3 4 5 6 7 8 9]){1}(?=.*[\d]){1}(?=.*[\d]){1}(?=.*[\d]){1}$/
             
 
 
@@ -346,16 +356,16 @@
             } else if (!id.match(exp)) {
                 inputid.className = ("form-control is-invalid")
                 tel2.setAttribute("disabled","disabled")
-                upid.innerHTML = "숫자만 4자리"
+                upid.innerHTML = "잘못된 형식입니다."
                 upid.style.color = "red"
             }
         }
         function tel3c() {
             let inputid = document.getElementById("tel3");
             let id = inputid.value;
-            let upid = document.getElementById("up-tel")
+            let upid = document.getElementById("up-tel3")
             let tel2=document.getElementById("tel3")
-            const exp = /^(?=.*[\d])[\d]{4,4}$/
+            const exp = /^(?=.*[0-9]){4}[\d]{4}$/
             
 
 
@@ -372,7 +382,43 @@
                 upid.style.color = "red"
             }
         }
+        function resettel1(){
+            let tel1=document.getElementById("tel1")
+            let tel2=document.getElementById("tel2")
+            let tel3=document.getElementById("tel3")
+            
+            let uptel1=document.getElementById("up-tel1")
+            let uptel2=document.getElementById("up-tel2")
+            let uptel3=document.getElementById("up-tel3")
 
+
+            tel2.className = ("form-control input-group")
+            tel2.value=""
+            tel3.className = ("form-control input-group")
+            tel3.value=""
+            uptel2.innerHTML=""
+            uptel3.innerHTML=""
+            tel2.setAttribute("disabled","disabled")
+            tel3.setAttribute("disabled","disabled")
+        }
+
+
+        function resettel2(){
+            let tel1=document.getElementById("tel1")
+            let tel2=document.getElementById("tel2")
+            let tel3=document.getElementById("tel3")
+            
+            let uptel1=document.getElementById("up-tel1")
+            let uptel2=document.getElementById("up-tel2")
+            let uptel3=document.getElementById("up-tel3")
+
+
+            
+            tel3.className = ("form-control input-group")
+            tel3.value=""
+            uptel3.innerHTML=""
+            tel3.setAttribute("disabled","disabled")
+        }
 
 
         function resetrepw() {
@@ -590,16 +636,20 @@
                 <div class="row g-1 form-control item">
                     <p class="" style="font: size 50px; color:gray; text-align: left;">Mobile</p>
                     <div class="input-group">
-                    <input type="text" id="tel1" onclick="uptel()" onkeyup="telc()" onblur="telc()" class="tel form-control input-group" maxlengh="3"></input>
-                    <input type="text" id="tel2" onclick="upte2()" onkeyup="tel2c()"disabled="disabled" class="tel form-control input-group" maxlength="4" ></input>
-                    <input type="text" id="tel3" onclick="upte2()" onkeyup="tel3c()" disabled="disabled" class="tel form-control input-group" maxlength="4"></input>
+                    <input type="text" id="tel1" onclick="resettel1()" onkeyup="telc()" onblur="telc()" class="tel form-control input-group" maxlengh="3"></input>
+                    <input type="text" id="tel2" onclick="resettel2()" onkeyup="tel2c()"disabled="disabled" class="tel form-control input-group" maxlength="4" ></input>
+                    <input type="text" id="tel3" onclick="upte3()" onkeyup="tel3c()" disabled="disabled" class="tel form-control input-group" maxlength="4"></input>
                 </div>
-                   <p class="uptext" id="up-tel"></p>
+                    <div class="input-group">
+                   <p class="uptext col-4" id="up-tel1">1</p>
+                   <p class="uptext col-4" id="up-tel2">2</p>
+                   <p class="uptext col-4" id="up-tel3">3</p>
+                </div>
             </div>
 
 
 
-
+            <button onclick="resettel1()">aaaaaaaaaa</button>
             </div>
 
 
