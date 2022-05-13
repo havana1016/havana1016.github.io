@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 !
+
 <head>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -12,11 +16,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <style>
-       
-       .item{
-           margin-top:25px;
-       }
+        /* .hss-btn{
+            border-left: 0;
+        } */
+        .item {
+            margin-top: 25px;
+        }
 
         .head-title {
             font-family: 'Noto Sans Korean', sans-serif;
@@ -31,10 +39,7 @@
             font-family: 'Noto Sans Korean', sans-serif;
         }
 
-        .inputbox {
-            border-color: gray;
-            
-        }
+        
 
         .uptext {
             font-size: 12px;
@@ -42,13 +47,14 @@
             margin-top: 5px;
             margin-bottom: 15px;
             font-family: 'Noto Sans Korean', sans-serif;
-            color:gray;
+            color: gray;
         }
     </style>
     <script>
         function resetupid() {
-            if(document.getElementById("up-id").style.color.match("gray")){
-                document.getElementById("up-id").innerHTML= ""}
+            if (document.getElementById("up-id").style.color.match("gray")) {
+                document.getElementById("up-id").innerHTML = ""
+            }
         }
         function resetuppw() {
             document.getElementById("up-pw").innerHTML = ""
@@ -79,247 +85,427 @@
         function upbir() {
             document.getElementById("up-bir").innerHTML = "생년월일"
         }
+        function upemail() {
+            document.getElementById("up-email").innerHTML = "영문,숫자,특수문자 4~20자"
+        }
+        function uptel() {
+            document.getElementById("up-tel").innerHTML = "숫자만 3자리"
+        }
+        function uptel() {
+            document.getElementById("up-tel").innerHTML = "숫자만 4자리"
+        }
 
         function idc() {
-            let inputid=document.getElementById("input-id");
+            let inputid = document.getElementById("input-id");
             let id = document.getElementById("input-id").value;
             let upid = document.getElementById("up-id")
             const exp = /^(?=.*[a-z])(?=.*[\d])[a-z \d]{8,12}$/
-                if(id.length==0){
-                    upid.innerHTML="필수 정보입니다."
-                    upid.style.color="red"
-                    inputid.className=("form-control inputbox is-invalid")
-                }else if(id.length==undefined){
-                    upid.innerHTML = "영문 소문자,숫자 8~12자"
-                }else{
-           
-           
+            if (id.length == 0) {
+                upid.innerHTML = "필수 정보입니다."
+                upid.style.color = "red"
+                inputid.className = ("form-control inputbox is-invalid")
+            } else if (id.length == undefined) {
+                upid.innerHTML = "영문 소문자,숫자 8~12자"
+            } else {
+
+
                 if (id.match(exp)) {
-                    inputid.className=("form-control inputbox is-valid")
-                    
+                    inputid.className = ("form-control inputbox is-valid")
+
                     upid.innerHTML = "사용가능한 아이디입니다."
-                    upid.style.color="green"
-                } else if(!id.match(exp)) {
-                    inputid.className=("form-control inputbox is-invalid")
-                    
+                    upid.style.color = "green"
+                } else if (!id.match(exp)) {
+                    inputid.className = ("form-control inputbox is-invalid")
+
                     upid.innerHTML = "영문 소문자,숫자 8~12자"
-                    upid.style.color="red"
-                }}
+                    upid.style.color = "red"
+                }
             }
-        
+        }
+
         function pwc() {
-            let inputid=document.getElementById("input-pw");
+            let inputid = document.getElementById("input-pw");
             let id = document.getElementById("input-pw").value;
             let upid = document.getElementById("up-pw")
             const exp = /^(?=.*[a-z])(?=.*[\d])(?=.*[! @ # $ % ^ & * - _])[a-z \d ! @ # $ % ^ & * - _]{8,12}$/
-            if(id.length==0){
-                    upid.innerHTML="필수 정보입니다."
-                    upid.style.color="red"
-                    inputid.className=("form-control is-invalid")
-                }
-           
-           
-                else if (id.match(exp)) {
-                    inputid.className=("form-control is-valid")
-                    
-                    upid.innerHTML = "사용가능한 비밀번호입니다."
-                    upid.style.color="green"
-                } else if(!id.match(exp)) {
-                    inputid.className=("form-control is-invalid")
-                    
-                    upid.innerHTML = "영문소문자,숫자,1개 이상의 특수문자 8~12자"
-                    upid.style.color="red"
-                }
+            if (id.length == 0) {
+                upid.innerHTML = "필수 정보입니다."
+                upid.style.color = "red"
+                inputid.className = ("form-control is-invalid")
+            }
+
+
+            else if (id.match(exp)) {
+                inputid.className = ("form-control is-valid")
+
+                upid.innerHTML = "사용가능한 비밀번호입니다."
+                upid.style.color = "green"
+            } else if (!id.match(exp)) {
+                inputid.className = ("form-control is-invalid")
+
+                upid.innerHTML = "영문소문자,숫자,1개 이상의 특수문자 8~12자"
+                upid.style.color = "red"
+            }
         }
 
         function namec() {
-            let inputid=document.getElementById("input-name");
+            let inputid = document.getElementById("input-name");
             let id = document.getElementById("input-name").value;
             let upid = document.getElementById("up-name")
             const exp = /^(?=.*[ㄱ-ㅎㅏ-ㅣ가-힣])[ㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/
-            if(id.length==0){
-                    upid.innerHTML="필수 정보입니다."
-                    upid.style.color="red"
-                    inputid.className=("form-control inputbox is-invalid")
-                }
-                else if (id.match(exp)) {
-                    upid.innerHTML = "사용가능한 이름입니다."
-                    upid.style.color="green"
-                    inputid.className=("form-control inputbox is-valid")
-                } else if(!id.match(exp)) {
-                    upid.innerHTML = "한글 2~10자"
-                    upid.style.color="red"
-                    inputid.className=("form-control inputbox is-invalid")
-                }
+            if (id.length == 0) {
+                upid.innerHTML = "필수 정보입니다."
+                upid.style.color = "red"
+                inputid.className = ("form-control inputbox is-invalid")
+            }
+            else if (id.match(exp)) {
+                upid.innerHTML = "사용가능한 이름입니다."
+                upid.style.color = "green"
+                inputid.className = ("form-control inputbox is-valid")
+            } else if (!id.match(exp)) {
+                upid.innerHTML = "한글 2~10자"
+                upid.style.color = "red"
+                inputid.className = ("form-control inputbox is-invalid")
+            }
         }
 
         function repwc() {
-            let inputid=document.getElementById("input-repw");
+            let inputid = document.getElementById("input-repw");
             let id = document.getElementById("input-repw").value;
             let pw = document.getElementById("input-pw").value;
             let upid = document.getElementById("up-repw")
-            if(pw.length==0){
-                    
-                    resetrepw();
-                    upid.innerHTML="먼저 윗칸의 비밀번호를 입력해주세요."
-                    upid.style.color="red"
-                    inputid.className=("form-control inputbox is-invalid")
+            if (pw.length == 0) {
 
-                }else{
-            if(id.length==0){
-                    upid.innerHTML="필수 정보입니다."
-                    upid.style.color="red"
-                    inputid.className=("form-control inputbox is-invalid")
+                resetrepw();
+                upid.innerHTML = "먼저 윗칸의 비밀번호를 입력해주세요."
+                upid.style.color = "red"
+                inputid.className = ("form-control inputbox is-invalid")
+
+            } else {
+                if (id.length == 0) {
+                    upid.innerHTML = "필수 정보입니다."
+                    upid.style.color = "red"
+                    inputid.className = ("form-control inputbox is-invalid")
                 }
-           
-           
-                else if (id===pw) {
-                    inputid.className=("form-control inputbox is-valid")
-                    
+
+
+                else if (id === pw) {
+                    inputid.className = ("form-control inputbox is-valid")
+
                     upid.innerHTML = "비밀번호가 일치합니다."
-                    upid.style.color="green"
-                } else if(id!=pw) {
-                    inputid.className=("form-control inputbox is-invalid")
-                    
+                    upid.style.color = "green"
+                } else if (id != pw) {
+                    inputid.className = ("form-control inputbox is-invalid")
+
                     upid.innerHTML = "비밀번호가 일치하지 않습니다."
-                    upid.style.color="red"
-                }}
+                    upid.style.color = "red"
+                }
+            }
         }
 
 
         function birc() {
-            let inputid=document.getElementById("input-bir");
+            let inputid = document.getElementById("input-bir");
             let id = document.getElementById("input-bir").value;
             let upid = document.getElementById("up-bir")
-            let date1=new Date();
-            let date2=new Date(id)
-            
-            let locdate1= date1.toLocaleDateString()
-            let locdate2= date2.toLocaleDateString()
-            
+            let date1 = new Date();
+            let date2 = new Date(id)
+
+            let locdate1 = date1.toLocaleDateString()
+            let locdate2 = date2.toLocaleDateString()
+
             let year1 = date1.getFullYear(); // 년도
             let month1 = date1.getMonth() + 1;  // 월
-            let day1 = date1.getDate(); 
+            let day1 = date1.getDate();
 
-            let year2=date2.getFullYear();
-            let month2 =date2.getMonth() + 1;  // 월
+            let year2 = date2.getFullYear();
+            let month2 = date2.getMonth() + 1;  // 월
             let day2 = date2.getDate();
 
-            let year2int=parseInt(year2)
-            let year1int=parseInt(year1)
+            let year2int = parseInt(year2)
+            let year1int = parseInt(year1)
 
 
-            let result =(year1int-year2int)
+            let result = (year1int - year2int)
             console.log(`result: ${result}`)
 
-            if(id.length==0){
-                    upid.innerHTML="필수 정보입니다."
-                    upid.style.color="red"
-                    inputid.className=("form-control inputbox is-invalid")
-                }
-                
-                
-                else{
+            if (id.length == 0) {
+                upid.innerHTML = "필수 정보입니다."
+                upid.style.color = "red"
+                inputid.className = ("form-control inputbox is-invalid")
+            }
 
-                    if(result==0 || (result<=9 && result>0)){
-                        upid.innerHTML="10세 이상만 가입가능합니다."
-                    upid.style.color="red"
-                    inputid.className=("form-control inputbox is-invalid")
-                    }else if(result<0){
-                        upid.innerHTML="날짜 입력이 잘못되었습니다."
-                    upid.style.color="red"
-                    inputid.className=("form-control inputbox is-invalid")
-                    }
-                    else{
-                    upid.innerHTML="입력이 완료 되었습니다."
-                    upid.style.color="green"
-                    inputid.className=("form-control inputbox is-valid")}
+
+            else {
+
+                if (result == 0 || (result <= 9 && result > 0)) {
+                    upid.innerHTML = "10세 이상만 가입가능합니다."
+                    upid.style.color = "red"
+                    inputid.className = ("form-control inputbox is-invalid")
+                } else if (result < 0) {
+                    upid.innerHTML = "날짜 입력이 잘못되었습니다."
+                    upid.style.color = "red"
+                    inputid.className = ("form-control inputbox is-invalid")
                 }
-                
+                else {
+                    upid.innerHTML = "입력이 완료 되었습니다."
+                    upid.style.color = "green"
+                    inputid.className = ("form-control inputbox is-valid")
+                    document.getElementById("input-email").focus()
+                }
+            }
+
         }
 
-        function resetrepw(){
-            let inputid=document.getElementById("input-repw");
+        function mailc() {
+            let inputid = document.getElementById("input-email");
+            let id = document.getElementById("input-email").value;
+            let upid = document.getElementById("up-email")
+            const exp = /^(?=.*[a-z]|[A-Z])[a-z A-Z \d !  # $ % ^ & * - _]{4,20}$/
+            if (id.length == 0) {
+                upid.innerHTML = "필수 정보입니다."
+                upid.style.color = "red"
+                inputid.className = ("form-control is-invalid")
+                inpuid.style.borderright="1px"
+            }
+
+
+            else if (id.match(exp)) {
+                inputid.className = ("form-control is-valid")
+
+                upid.innerHTML = "사용가능한 이메일 이름 입니다."
+                upid.style.color = "green"
+            } else if (!id.match(exp)) {
+                inputid.className = ("form-control is-invalid")
+
+                upid.innerHTML = "영문,숫자,특수문자 4~20자"
+                upid.style.color = "red"
+            }
+        }
+
+        function mailrc() {
+            let inputid = document.getElementById("mail-result");
+            let id = inputid.value;
+            let upid = document.getElementById("up-mailr")
+            const exp = /^(?=.*[a-z]|[A-Z])(?=.*[@])(?=.*[.])[a-z A-Z \d @ .]{1,20}$/
+            
+
+
+            if (id.match(exp)) {
+                inputid.className = ("form-control is-valid")
+
+                upid.innerHTML = "사용가능한 도메인 입니다."
+                upid.style.color = "green"
+                document.getElementById("tel1").focus()
+            } else if (!id.match(exp)) {
+                inputid.className = ("form-control is-invalid")
+
+                upid.innerHTML = "사용 불가능한 도메인입니다. "
+                upid.style.color = "red"
+            }
+        }
+
+        function telc() {
+            let inputid = document.getElementById("tel1");
+            let id = inputid.value;
+            let upid = document.getElementById("up-tel")
+            let tel2=document.getElementById("tel2")
+            const exp = /^(?=.*[\d])[\d]{3,3}$/
+            
+
+
+            if (id.match(exp)) {
+                inputid.className = ("form-control is-valid")
+                tel2.removeAttribute("disabled")
+                upid.innerHTML = ""
+                tel2.focus()
+
+
+            } else if (!id.match(exp)) {
+                inputid.className = ("form-control is-invalid")
+                tel2.setAttribute("disabled","disabled")
+                upid.innerHTML = "숫자만 3자리"
+                upid.style.color = "red"
+            }
+        }
+        function tel2c() {
+            let inputid = document.getElementById("tel2");
+            let id = inputid.value;
+            let upid = document.getElementById("up-tel")
+            let tel2=document.getElementById("tel3")
+            const exp = /^(?=.*[\d])[\d]{4,4}$/
+            
+
+
+            if (id.match(exp)) {
+                inputid.className = ("form-control is-valid")
+                tel2.removeAttribute("disabled")
+                upid.innerHTML = ""
+                tel2.focus()
+
+            } else if (!id.match(exp)) {
+                inputid.className = ("form-control is-invalid")
+                tel2.setAttribute("disabled","disabled")
+                upid.innerHTML = "숫자만 4자리"
+                upid.style.color = "red"
+            }
+        }
+        function tel3c() {
+            let inputid = document.getElementById("tel3");
+            let id = inputid.value;
+            let upid = document.getElementById("up-tel")
+            let tel2=document.getElementById("tel3")
+            const exp = /^(?=.*[\d])[\d]{4,4}$/
+            
+
+
+            if (id.match(exp)) {
+                inputid.className = ("form-control is-valid")
+                
+                upid.innerHTML = "사용가능한 전화번호입니다."
+                upid.style.color = "green"
+
+            } else if (!id.match(exp)) {
+                inputid.className = ("form-control is-invalid")
+                
+                upid.innerHTML = "숫자만 4자리"
+                upid.style.color = "red"
+            }
+        }
+
+
+
+        function resetrepw() {
+            let inputid = document.getElementById("input-repw");
             let id = document.getElementById("input-repw").value;
             let pw = document.getElementById("input-pw").value;
             let upid = document.getElementById("up-repw")
-           
-           if(pw.length==0){ upid.innerHTML=""
-            inputid.className=("form-control inputbox")
-            inputid.value="";}
+
+            if (pw.length == 0) {
+                upid.innerHTML = ""
+                inputid.className = ("form-control inputbox")
+                inputid.value = "";
+            }
         }
 
 
-        function seepw(){
+        function seepw() {
             let pw = document.getElementById("input-pw");
-            let icon=document.getElementById("pwb");
+            let icon = document.getElementById("pwb");
             console.log(pw.value.length)
-            if(pw.value.length!="0"){
-            if (pw.type=="password"){
-                pw.type="text";
-                icon.className="btn btn-outline-secondary bi bi-eye-slash";
-            }else{
-                pw.type="password";
-                icon.className="btn btn-outline-secondary bi bi-eye";
-            }}
+            if (pw.value.length != "0") {
+                if (pw.type == "password") {
+                    pw.type = "text";
+                    icon.className = "hss-btn input-group-text bi bi-eye-slash";
+                } else {
+                    pw.type = "password";
+                    icon.className = "hss-btn input-group-text bi bi-eye";
+                }
+            }
         }
 
-        function seerepw(){
+        function seerepw() {
             let pw = document.getElementById("input-repw");
-            let icon=document.getElementById("repwb");
+            let icon = document.getElementById("repwb");
             console.log(pw.length)
-            if(pw.value.length!=0){
-            if (pw.type=="password"){
-                pw.type="text";
-                icon.className="btn btn-outline-secondary bi bi-eye-slash";
-            }else{
-                pw.type="password";
-                icon.className="btn btn-outline-secondary bi bi-eye";
-            }}
+            if (pw.value.length != 0) {
+                if (pw.type == "password") {
+                    pw.type = "text";
+                    icon.className = "hss-btn input-group-text bi bi-eye-slash";
+                } else {
+                    pw.type = "password";
+                    icon.className = "hss-btn input-group-text bi bi-eye";
+                }
+            }
         }
 
 
-        
 
-        function yesmail(){
-            let mail=document.getElementById("input-email");
+
+        function yesmail() {
+            let mail = document.getElementById("input-email");
             mail.removeAttribute("disabled")
         }
 
-        function mailplus(){
+        function mailplus() {
             console.log("메일플러스 호출")
-            let mailval=document.getElementById("input-email").value
-            const selval=document.getElementById("mail-sel").value
-            let mail=document.getElementById("input-email");
+            let mailval = document.getElementById("input-email").value
+            const selval = document.getElementById("mail-sel").value
+            let mail = document.getElementById("input-email");
             let result;
-            
-            
-            result=(mailval+selval)
+
+
+            result = (mailval + selval)
             console.log(result)
-            
-            mail.setAttribute("value",result)
+
+            mail.setAttribute("value", result)
         }
-        function resetmail(){
+        function resetmail() {
             console.log("reset호출")
-            let mail=document.getElementById("input-email");
-            mail.value=""
-            mail.removeAttribute("value")
+            let mail = document.getElementById("input-email");
+            mail.value = null;
         }
-       
+
+        function changedate() {
+            document.getElementById("input-bir").type = "date";
+        }
+        function changetext() {
+            let bir = document.getElementById("input-bir");
+            if (bir.length == 0 || bir.length == undefined) {
+                bir.type = "text";
+            }
+        }
+        function refresh() {
+            $("input-email").load(window.location.href + "input-email");
+        }
+        function maillen() {
+            let mail = document.getElementById("input-email")
+            let btn = document.getElementById("mail-sel")
+            console.log(mail.value.length)
+            if (mail.value.length > 0) {
+                btn.removeAttribute("disabled");
+            } else {
+                btn.setAttribute("disabled", "disabled")
+            }
+        }
+
+        function setmail() {
+            let name = document.getElementById("mail-result")
+            const selval = document.getElementById("mail-sel").value
+            let mail = document.getElementById("input-email")
+            name.value = selval;
+            if (selval == "@") {
+                name.removeAttribute("disabled")
+            } else {
+                name.setAttribute("disabled", "disabled")
+            }
+        }
+        function pwiconc(){
+           document.getElementById("pwb").className="hss-btn input-group-text btn-secondary bi bi-eye"
+
+        }
+        function pwiconc1(){
+           document.getElementById("pwb").className="hss-btn input-group-text outline-secondary bi bi-eye"
+
+        }
+
+        function con(a) {
+            console.log("a")
+        }
     </script>
 </head>
 
 <body>
 
     <div class="head-title rounded " style=width:400px>
-        <p id="title"style=color:gray>Join MEMBERS</p>
-        
+        <p id="title" style=color:gray>Join MEMBERS</p>
+
         <div class="input-box">
             <div class="item">
-            <input class="form-control inputbox" id="input-id" onclick="upid()" onkeyup="idc()" onblur="idc()"
-                type="text" placeholder="ID" maxlength="12">
-            <p class="uptext" id="up-id"></p>
-        </div>
+                <input class="form-control inputbox" id="input-id" onclick="upid()" onkeyup="idc()" onblur="idc()"
+                    type="text" placeholder="ID" maxlength="12">
+                <p class="uptext" id="up-id"></p>
+            </div>
             <!--
             <div class="input-group mb-3" >
                 <input type="text" class="form-control " placeholder="비밀번호를 입력하세요." aria-label="Recipient's username">
@@ -329,63 +515,92 @@
             -->
 
             <div class="item">
-              <div class="input-group" >
-            <input class="form-control inputbox " id="input-pw" onclick="uppw()" onkeyup="pwc()" onblur="pwc()"
-                type="password" placeholder="Password" maxlength="12">
-                <button id="pwb" class="btn btn-outline-secondary bi bi-eye" onclick="seepw();" type="button"></button>
+                <div class="input-group">
+                    <input class="form-control inputbox " id="input-pw" onclick="uppw()" onkeyup="pwc()" onblur="pwc()"
+                        type="password" placeholder="Password" maxlength="12">
+                    <button id="pwb" class="hss-btn input-group-text bi bi-eye" 
+                   
+                         onclick="seepw()"></button>
+                </div>
+                <p class="uptext" id="up-pw"></p>
             </div>
-            <p class="uptext" id="up-pw"></p>
-        </div>
 
             <div class="item">
-                <div class="input-group" >
-                <input class="form-control inputbox bi bi-eye" id="input-repw" onkeyup="repwc()" 
-                type="password" placeholder="Password" maxlength="12">
-                <button id="repwb" class="input-group-text btn btn-outline bi bi-eye" onclick="seerepw();" type="button"></button>
+                <div class="input-group">
+                    <input class="form-control inputbox" id="input-repw" onkeyup="repwc()" type="password"
+                        placeholder="Password" maxlength="12">
+                    <button id="repwb" class="hss-btn input-group-text bi bi-eye"
+                    style onclick="seerepw();" type="button"></button>
+                </div>
+                <div class="uptext" id="up-repw"></div>
+
+                <div class="item">
+                    <div class="input-group">
+                        <input class="form-control inputbox" id="input-name" onclick="upname()" onkeyup="namec()"
+                            onblur="namec()" type="text" placeholder="Name" maxlength="12">
+                    </div>
+                    <p class="uptext" id="up-name"></p>
+                </div>
+                <div class="item">
+                    <input class="form-control inputbox" id="input-bir" onclick="upbir(),changedate()" onkeyup="birc()"
+                        onblur="birc(),changetext()" type="text" placeholder="Birth">
+                    <p class="uptext" id="up-bir"></p>
+                </div>
+                <div class="row g-1 form-control item">
+                    <div class="" style="text-align: left" >
+                    <p class="" style="font: size 50px; color:gray">E-mail</p>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group ">
+                            <input  type="text" id="input-email" class=" form-control" placeholder="Mail-Id" maxlength="20"
+                                 onclick="upemail()" onkeypress="maillen(),mailc()" onblur="maillen(),mailc()" onkeyup="mailc()">
+                            <input type="text" id="mail-result" class=" form-control" onkeypress="mailrc()"
+                                disabled="disabled">
+                            <div class="">
+
+                            </div>
+                            <div class="">
+                                <select class="form-control input-group" disabled="disabled"
+                                    id="mail-sel" onchange="setmail(),mailrc()" onclick="maillen()" 
+                                    style="border-top-left-radius: 0;border-bottom-left-radius:0;border: 1;">
+                                    <!---->
+                                    <option selected disabled="disabled" value="">Server </option>
+                                    <option value="@gmail.com">Google </option>
+                                    <option value="@naver.com">Naver </option>
+                                    <option value="@daum.net">Daum </option>
+                                    <option value="@">직접입력</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                        <p class="uptext col-5" id="up-email"></p>
+                        <p class="col-0.5"></p>
+                        <p class="uptext" id="up-mailr"></p>
+
+                    </div>
+                   
+
+
+
+                    </div>
+
+                </div>
+
+
+                <div class="row g-1 form-control item">
+                    <p class="" style="font: size 50px; color:gray; text-align: left;">Mobile</p>
+                    <div class="input-group">
+                    <input type="text" id="tel1" onclick="uptel()" onkeyup="telc()" onblur="telc()" class="tel form-control input-group" maxlengh="3"></input>
+                    <input type="text" id="tel2" onclick="upte2()" onkeyup="tel2c()"disabled="disabled" class="tel form-control input-group" maxlength="4" ></input>
+                    <input type="text" id="tel3" onclick="upte2()" onkeyup="tel3c()" disabled="disabled" class="tel form-control input-group" maxlength="4"></input>
+                </div>
+                   <p class="uptext" id="up-tel"></p>
             </div>
-                   <div class="col-8 uptext" id="up-repw"></div>
-                   <div class="col-4 bi bi-eye"></div>
-        </div>
-            <div class="item">
-                <div class="input-group" >
-            <input class="form-control inputbox" id="input-name" onclick="upname()" onkeyup="namec()" onblur="namec()"
-                type="text" placeholder="Name" maxlength="12">
+
+
+
+
             </div>
-            <p class="uptext" id="up-name"></p>
-        </div>
-        <div class="item">
-            <input class="form-control inputbox" id="input-bir" onclick="upbir()" onkeyup="birc()" onblur="birc()"
-                type="date" placeholder="Birth">
-            <p class="uptext" id="up-bir"></p>
-        </div>
-        <div class="row g-1">
-            <div class="col-8">
-              <div class=>
-                <input type="text" id="input-email"  class="form-control"  placeholder="E-mail" 
-                disabled="disabled" onkeypress="mailplus()">
-                
-              </div>
-            </div>
-            <div class="col-4">
-              <div class=>
-                <select class="form-select" id="mail-sel" onchange="" onclick="yesmail()">  <!---->
-                  <option selected disabled="disabled">Server</option>
-                  <option value="@gmail.com" >Google</option>
-                  <option value="@naver.com" onclick="resetmail()">Naver</option>
-                  <option value="@daum.net" >Daum</option>
-                  <option value>직접입력</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="">
-            
-            <div class="input-group ">
-                <input type="text" class="form-control is-valid" >
-                <button class="input-group-text bi bi-eye" ></button>
-              
-            </div>
-          </div>
 
 
         </div>
