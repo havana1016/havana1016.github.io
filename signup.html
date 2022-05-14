@@ -1,27 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-!
+
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <meta charset="UTF-8">
+    
+        <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script>
+            function sample6_execDaumPostcode() {
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+        
+                        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        var addr = ''; // 주소 변수
+                        var extraAddr = ''; // 참고항목 변수
+        
+                        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                            addr = data.roadAddress;
+                        } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                            addr = data.jibunAddress;
+                        }
+        
+                        // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                        if(data.userSelectedType === 'R'){
+                            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                                extraAddr += data.bname;
+                            }
+                            // 건물명이 있고, 공동주택일 경우 추가한다.
+                            if(data.buildingName !== '' && data.apartment === 'Y'){
+                                extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                            }
+                            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                            if(extraAddr !== ''){
+                                extraAddr = ' (' + extraAddr + ')';
+                            }
+                            // 조합된 참고항목을 해당 필드에 넣는다.
+                            document.getElementById("sample6_extraAddress").value = extraAddr;
+                        
+                        } else {
+                            document.getElementById("sample6_extraAddress").value = '';
+                        }
+        
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        document.getElementById('sample6_postcode').value = data.zonecode;
+                        document.getElementById("sample6_address").value = addr;
+                        // 커서를 상세주소 필드로 이동한다.
+                        document.getElementById("sample6_detailAddress").focus();
+                    }
+                }).open();
+            }
+        </script>
     <style>
         /* .hss-btn{
             border-left: 0;
         } */
+
+        body{
+            background: rgb(232, 233, 235);
+            font-family: 'Noto Sans Korean', sans-serif;
+        }
+
+
+        .hidden{
+            visibility: hidden;
+        }
         .item {
             margin-top: 25px;
         }
@@ -33,6 +97,7 @@
             text-align: center;
             margin-top: 10px;
             margin-bottom: 20px;
+            background-color:rgba(253,253,253,0.8) ;
         }
 
         .input {
@@ -314,7 +379,10 @@
             let upid = document.getElementById("up-tel1")
             let tel2=document.getElementById("tel2")
             let tel3=document.getElementById("tel3")
-            const exp = /^(?=.*[0])(?=.*[1])(?=.*[0 1 6 7 8 9]){3}$/
+            var exp = /^(?:|(01[0|1|6|7|8|9]))$/;
+            // const exp1 = /^0{1}1{1}(?=.*[0 1 6 7 8 9]){1}$/
+            // var exp2 = /^(01[1|6|7|8|9]{3})$/;
+            //const exp = /^\0\1\(?=.*[0 1 6 7 8 9]){1}$/
             if(id==0){
                 inputid.className = ("form-control is-invalid")
                 tel2.setAttribute("disabled","disabled")
@@ -343,7 +411,7 @@
             let id = inputid.value;
             let upid = document.getElementById("up-tel2")
             let tel2=document.getElementById("tel3")
-            const exp = /^(?=.*[2 3 4 5 6 7 8 9]){1}(?=.*[\d]){1}(?=.*[\d]){1}(?=.*[\d]){1}$/
+            const exp = /^[2-9]{1}[\d]{3}$/
             
 
 
@@ -365,7 +433,7 @@
             let id = inputid.value;
             let upid = document.getElementById("up-tel3")
             let tel2=document.getElementById("tel3")
-            const exp = /^(?=.*[0-9]){4}[\d]{4}$/
+            const exp = /^[\d]{4}$/
             
 
 
@@ -538,6 +606,12 @@
         function con(a) {
             console.log("a")
         }
+
+        function adrsee(){
+            document.getElementById("sample6_detailAddress").removeAttribute("disabled")
+        }
+
+       
     </script>
 </head>
 
@@ -641,17 +715,781 @@
                     <input type="text" id="tel3" onclick="upte3()" onkeyup="tel3c()" disabled="disabled" class="tel form-control input-group" maxlength="4"></input>
                 </div>
                     <div class="input-group">
-                   <p class="uptext col-4" id="up-tel1">1</p>
-                   <p class="uptext col-4" id="up-tel2">2</p>
-                   <p class="uptext col-4" id="up-tel3">3</p>
+                   <p class="uptext col-4" id="up-tel1"></p>
+                   <p class="uptext col-4" id="up-tel2"></p>
+                   <p class="uptext col-4" id="up-tel3"></p>
                 </div>
             </div>
 
 
 
-            <button onclick="resettel1()">aaaaaaaaaa</button>
+
+            <div class="row g-2 item form-control">
+                <p class="" style="font: size 50px; color:gray; text-align: left;">Address</p>
+            <div class="input-group">
+            <input type="text" class="form-control" id="sample6_postcode" disabled placeholder="우편번호">
+            <input class="input-group-text btn btn-outline-secondary" type="button" onclick="sample6_execDaumPostcode(),adrsee()" 
+            style value="우편번호 찾기">
+        </div>
+        <div class="input-group">
+             <input type="text" class="form-control input-group" id="sample6_address" placeholder="주소"
+             disabled></div>
+            <div class="input-group">
+            <input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" disabled>
+        </div>
+        <p class="hidden" id="sample6_extraAddress"  placeholder="참고항목"></p>
+        
+    </div>
+    <!--modal test-->
+    
+   <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Launch static backdrop modal
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+   aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Join MEMBERS</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- 모달 시작 테스트-->
+          <script>
+            function sample6_execDaumPostcode() {
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+        
+                        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        var addr = ''; // 주소 변수
+                        var extraAddr = ''; // 참고항목 변수
+        
+                        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                            addr = data.roadAddress;
+                        } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                            addr = data.jibunAddress;
+                        }
+        
+                        // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                        if(data.userSelectedType === 'R'){
+                            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                                extraAddr += data.bname;
+                            }
+                            // 건물명이 있고, 공동주택일 경우 추가한다.
+                            if(data.buildingName !== '' && data.apartment === 'Y'){
+                                extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                            }
+                            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                            if(extraAddr !== ''){
+                                extraAddr = ' (' + extraAddr + ')';
+                            }
+                            // 조합된 참고항목을 해당 필드에 넣는다.
+                            document.getElementById("sample6_extraAddress").value = extraAddr;
+                        
+                        } else {
+                            document.getElementById("sample6_extraAddress").value = '';
+                        }
+        
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        document.getElementById('sample6_postcode').value = data.zonecode;
+                        document.getElementById("sample6_address").value = addr;
+                        // 커서를 상세주소 필드로 이동한다.
+                        document.getElementById("sample6_detailAddress").focus();
+                    }
+                }).open();
+            }
+        </script>
+    <style>
+        /* .hss-btn{
+            border-left: 0;
+        } */
+
+        body{
+            background: rgb(232, 233, 235);
+            font-family: 'Noto Sans Korean', sans-serif;
+        }
+
+
+        .hidden{
+            visibility: hidden;
+        }
+        .item {
+            margin-top: 25px;
+        }
+
+        .head-title {
+            font-family: 'Noto Sans Korean', sans-serif;
+            font-size: 30px;
+            color: black;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            background-color:rgba(253,253,253,0.8) ;
+        }
+
+        .input {
+            font-family: 'Noto Sans Korean', sans-serif;
+        }
+
+        
+
+        .uptext {
+            font-size: 12px;
+            text-align: left;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            font-family: 'Noto Sans Korean', sans-serif;
+            color: gray;
+        }
+    </style>
+    <script>
+        function resetupid() {
+            if (document.getElementById("up-id").style.color.match("gray")) {
+                document.getElementById("up-id").innerHTML = ""
+            }
+        }
+        function resetuppw() {
+            document.getElementById("up-pw").innerHTML = ""
+        }
+        function resetuprepw() {
+            document.getElementById("up-repw").innerHTML = ""
+        }
+        function resetupall() {
+            document.getElementById("up-repw").innerHTML = ""
+            document.getElementById("up-id").innerHTML = ""
+            document.getElementById("up-pw").innerHTML = ""
+        }
+
+
+
+        function upid() {
+            document.getElementById("up-id").innerHTML = "영문 소문자,숫자 8~12자"
+        }
+        function uppw() {
+            document.getElementById("up-pw").innerHTML = "영문 소문자, 숫자, 1개 이상의 특수문자 8~12자"
+        }
+        function uprepw() {
+            document.getElementById("up-repw").innerHTML = "입력하신 비밀번호와 똑같이 입력해주세요."
+        }
+        function upname() {
+            document.getElementById("up-name").innerHTML = "한글 2~10자"
+        }
+        function upbir() {
+            document.getElementById("up-bir").innerHTML = "생년월일"
+        }
+        function upemail() {
+            document.getElementById("up-email").innerHTML = "영문,숫자,특수문자 4~20자"
+        }
+        function uptel1() {
+            document.getElementById("up-tel1").innerHTML = "숫자만 3자리"
+        }
+        function uptel2() {
+            document.getElementById("up-tel2").innerHTML = "숫자만 4자리"
+        }
+        function uptel3() {
+            document.getElementById("up-tel3").innerHTML = "숫자만 4자리"
+        }
+
+        function idc() {
+            let inputid = document.getElementById("input-id");
+            let id = document.getElementById("input-id").value;
+            let upid = document.getElementById("up-id")
+            const exp = /^(?=.*[a-z])(?=.*[\d])[a-z \d]{8,12}$/
+            if (id.length == 0) {
+                upid.innerHTML = "필수 정보입니다."
+                upid.style.color = "red"
+                inputid.className = ("form-control inputbox is-invalid")
+            } else if (id.length == undefined) {
+                upid.innerHTML = "영문 소문자,숫자 8~12자"
+            } else {
+
+
+                if (id.match(exp)) {
+                    inputid.className = ("form-control inputbox is-valid")
+
+                    upid.innerHTML = "사용가능한 아이디입니다."
+                    upid.style.color = "green"
+                } else if (!id.match(exp)) {
+                    inputid.className = ("form-control inputbox is-invalid")
+
+                    upid.innerHTML = "영문 소문자,숫자 8~12자"
+                    upid.style.color = "red"
+                }
+            }
+        }
+
+        function pwc() {
+            let inputid = document.getElementById("input-pw");
+            let id = document.getElementById("input-pw").value;
+            let upid = document.getElementById("up-pw")
+            const exp = /^(?=.*[a-z])(?=.*[\d])(?=.*[! @ # $ % ^ & * - _])[a-z \d ! @ # $ % ^ & * - _]{8,12}$/
+            if (id.length == 0) {
+                upid.innerHTML = "필수 정보입니다."
+                upid.style.color = "red"
+                inputid.className = ("form-control is-invalid")
+            }
+
+
+            else if (id.match(exp)) {
+                inputid.className = ("form-control is-valid")
+
+                upid.innerHTML = "사용가능한 비밀번호입니다."
+                upid.style.color = "green"
+            } else if (!id.match(exp)) {
+                inputid.className = ("form-control is-invalid")
+
+                upid.innerHTML = "영문소문자,숫자,1개 이상의 특수문자 8~12자"
+                upid.style.color = "red"
+            }
+        }
+
+        function namec() {
+            let inputid = document.getElementById("input-name");
+            let id = document.getElementById("input-name").value;
+            let upid = document.getElementById("up-name")
+            const exp = /^(?=.*[ㄱ-ㅎㅏ-ㅣ가-힣])[ㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/
+            if (id.length == 0) {
+                upid.innerHTML = "필수 정보입니다."
+                upid.style.color = "red"
+                inputid.className = ("form-control inputbox is-invalid")
+            }
+            else if (id.match(exp)) {
+                upid.innerHTML = "사용가능한 이름입니다."
+                upid.style.color = "green"
+                inputid.className = ("form-control inputbox is-valid")
+            } else if (!id.match(exp)) {
+                upid.innerHTML = "한글 2~10자"
+                upid.style.color = "red"
+                inputid.className = ("form-control inputbox is-invalid")
+            }
+        }
+
+        function repwc() {
+            let inputid = document.getElementById("input-repw");
+            let id = document.getElementById("input-repw").value;
+            let pw = document.getElementById("input-pw").value;
+            let upid = document.getElementById("up-repw")
+            if (pw.length == 0) {
+
+                resetrepw();
+                upid.innerHTML = "먼저 윗칸의 비밀번호를 입력해주세요."
+                upid.style.color = "red"
+                inputid.className = ("form-control inputbox is-invalid")
+
+            } else {
+                if (id.length == 0) {
+                    upid.innerHTML = "필수 정보입니다."
+                    upid.style.color = "red"
+                    inputid.className = ("form-control inputbox is-invalid")
+                }
+
+
+                else if (id === pw) {
+                    inputid.className = ("form-control inputbox is-valid")
+
+                    upid.innerHTML = "비밀번호가 일치합니다."
+                    upid.style.color = "green"
+                } else if (id != pw) {
+                    inputid.className = ("form-control inputbox is-invalid")
+
+                    upid.innerHTML = "비밀번호가 일치하지 않습니다."
+                    upid.style.color = "red"
+                }
+            }
+        }
+
+
+        function birc() {
+            let inputid = document.getElementById("input-bir");
+            let id = document.getElementById("input-bir").value;
+            let upid = document.getElementById("up-bir")
+            let date1 = new Date();
+            let date2 = new Date(id)
+
+            let locdate1 = date1.toLocaleDateString()
+            let locdate2 = date2.toLocaleDateString()
+
+            let year1 = date1.getFullYear(); // 년도
+            let month1 = date1.getMonth() + 1;  // 월
+            let day1 = date1.getDate();
+
+            let year2 = date2.getFullYear();
+            let month2 = date2.getMonth() + 1;  // 월
+            let day2 = date2.getDate();
+
+            let year2int = parseInt(year2)
+            let year1int = parseInt(year1)
+
+
+            let result = (year1int - year2int)
+            console.log(`result: ${result}`)
+
+            if (id.length == 0) {
+                upid.innerHTML = "필수 정보입니다."
+                upid.style.color = "red"
+                inputid.className = ("form-control inputbox is-invalid")
+            }
+
+
+            else {
+
+                if (result == 0 || (result <= 9 && result > 0)) {
+                    upid.innerHTML = "10세 이상만 가입가능합니다."
+                    upid.style.color = "red"
+                    inputid.className = ("form-control inputbox is-invalid")
+                } else if (result < 0) {
+                    upid.innerHTML = "날짜 입력이 잘못되었습니다."
+                    upid.style.color = "red"
+                    inputid.className = ("form-control inputbox is-invalid")
+                }
+                else {
+                    upid.innerHTML = "입력이 완료 되었습니다."
+                    upid.style.color = "green"
+                    inputid.className = ("form-control inputbox is-valid")
+                    document.getElementById("input-email").focus()
+                }
+            }
+
+        }
+
+        function mailc() {
+            let inputid = document.getElementById("input-email");
+            let id = document.getElementById("input-email").value;
+            let upid = document.getElementById("up-email")
+            const exp = /^(?=.*[a-z]|[A-Z])[a-z A-Z \d !  # $ % ^ & * - _]{4,20}$/
+            if (id.length == 0) {
+                upid.innerHTML = "필수 정보입니다."
+                upid.style.color = "red"
+                inputid.className = ("form-control is-invalid")
+                inpuid.style.borderright="1px"
+            }
+
+
+            else if (id.match(exp)) {
+                inputid.className = ("form-control is-valid")
+
+                upid.innerHTML = "사용가능한 이메일 이름 입니다."
+                upid.style.color = "green"
+            } else if (!id.match(exp)) {
+                inputid.className = ("form-control is-invalid")
+
+                upid.innerHTML = "영문,숫자,특수문자 4~20자"
+                upid.style.color = "red"
+            }
+        }
+
+        function mailrc() {
+            let inputid = document.getElementById("mail-result");
+            let id = inputid.value;
+            let upid = document.getElementById("up-mailr")
+            const exp = /^(?=.*[a-z]|[A-Z])(?=.*[@])(?=.*[.])[a-z A-Z \d @ .]{1,20}$/
+            
+
+
+            if (id.match(exp)) {
+                inputid.className = ("form-control is-valid")
+
+                upid.innerHTML = "사용가능한 도메인 입니다."
+                upid.style.color = "green"
+                document.getElementById("tel1").focus()
+            } else if (!id.match(exp)) {
+                inputid.className = ("form-control is-invalid")
+
+                upid.innerHTML = "사용 불가능한 도메인입니다. "
+                upid.style.color = "red"
+            }
+        }
+
+        function telc() {
+            let inputid = document.getElementById("tel1");
+            let id = inputid.value;
+            let upid = document.getElementById("up-tel1")
+            let tel2=document.getElementById("tel2")
+            let tel3=document.getElementById("tel3")
+            var exp = /^(?:|(01[0|1|6|7|8|9]))$/;
+            // const exp1 = /^0{1}1{1}(?=.*[0 1 6 7 8 9]){1}$/
+            // var exp2 = /^(01[1|6|7|8|9]{3})$/;
+            //const exp = /^\0\1\(?=.*[0 1 6 7 8 9]){1}$/
+            if(id==0){
+                inputid.className = ("form-control is-invalid")
+                tel2.setAttribute("disabled","disabled")
+                tel3.setAttribute("disabled","disabled")
+                upid.innerHTML = "필수 입력입니다."
+                upid.style.color = "red"
+            }else{
+
+
+            if (id.match(exp)) {
+                inputid.className = ("form-control is-valid")
+                tel2.removeAttribute("disabled")
+                upid.innerHTML = ""
+                tel2.focus()
+
+
+            } else if (!id.match(exp)) {
+                inputid.className = ("form-control is-invalid")
+                tel2.setAttribute("disabled","disabled")
+                upid.innerHTML = "잘못된 형식입니다."
+                upid.style.color = "red"
+            }}
+        }
+        function tel2c() {
+            let inputid = document.getElementById("tel2");
+            let id = inputid.value;
+            let upid = document.getElementById("up-tel2")
+            let tel2=document.getElementById("tel3")
+            const exp = /^[2-9]{1}[\d]{3}$/
+            
+
+
+            if (id.match(exp)) {
+                inputid.className = ("form-control is-valid")
+                tel2.removeAttribute("disabled")
+                upid.innerHTML = ""
+                tel2.focus()
+
+            } else if (!id.match(exp)) {
+                inputid.className = ("form-control is-invalid")
+                tel2.setAttribute("disabled","disabled")
+                upid.innerHTML = "잘못된 형식입니다."
+                upid.style.color = "red"
+            }
+        }
+        function tel3c() {
+            let inputid = document.getElementById("tel3");
+            let id = inputid.value;
+            let upid = document.getElementById("up-tel3")
+            let tel2=document.getElementById("tel3")
+            const exp = /^[\d]{4}$/
+            
+
+
+            if (id.match(exp)) {
+                inputid.className = ("form-control is-valid")
+                
+                upid.innerHTML = "사용가능한 전화번호입니다."
+                upid.style.color = "green"
+
+            } else if (!id.match(exp)) {
+                inputid.className = ("form-control is-invalid")
+                
+                upid.innerHTML = "숫자만 4자리"
+                upid.style.color = "red"
+            }
+        }
+        function resettel1(){
+            let tel1=document.getElementById("tel1")
+            let tel2=document.getElementById("tel2")
+            let tel3=document.getElementById("tel3")
+            
+            let uptel1=document.getElementById("up-tel1")
+            let uptel2=document.getElementById("up-tel2")
+            let uptel3=document.getElementById("up-tel3")
+
+
+            tel2.className = ("form-control input-group")
+            tel2.value=""
+            tel3.className = ("form-control input-group")
+            tel3.value=""
+            uptel2.innerHTML=""
+            uptel3.innerHTML=""
+            tel2.setAttribute("disabled","disabled")
+            tel3.setAttribute("disabled","disabled")
+        }
+
+
+        function resettel2(){
+            let tel1=document.getElementById("tel1")
+            let tel2=document.getElementById("tel2")
+            let tel3=document.getElementById("tel3")
+            
+            let uptel1=document.getElementById("up-tel1")
+            let uptel2=document.getElementById("up-tel2")
+            let uptel3=document.getElementById("up-tel3")
+
+
+            
+            tel3.className = ("form-control input-group")
+            tel3.value=""
+            uptel3.innerHTML=""
+            tel3.setAttribute("disabled","disabled")
+        }
+
+
+        function resetrepw() {
+            let inputid = document.getElementById("input-repw");
+            let id = document.getElementById("input-repw").value;
+            let pw = document.getElementById("input-pw").value;
+            let upid = document.getElementById("up-repw")
+
+            if (pw.length == 0) {
+                upid.innerHTML = ""
+                inputid.className = ("form-control inputbox")
+                inputid.value = "";
+            }
+        }
+
+
+        function seepw() {
+            let pw = document.getElementById("input-pw");
+            let icon = document.getElementById("pwb");
+            console.log(pw.value.length)
+            if (pw.value.length != "0") {
+                if (pw.type == "password") {
+                    pw.type = "text";
+                    icon.className = "hss-btn input-group-text bi bi-eye-slash";
+                } else {
+                    pw.type = "password";
+                    icon.className = "hss-btn input-group-text bi bi-eye";
+                }
+            }
+        }
+
+        function seerepw() {
+            let pw = document.getElementById("input-repw");
+            let icon = document.getElementById("repwb");
+            console.log(pw.length)
+            if (pw.value.length != 0) {
+                if (pw.type == "password") {
+                    pw.type = "text";
+                    icon.className = "hss-btn input-group-text bi bi-eye-slash";
+                } else {
+                    pw.type = "password";
+                    icon.className = "hss-btn input-group-text bi bi-eye";
+                }
+            }
+        }
+
+
+
+
+        function yesmail() {
+            let mail = document.getElementById("input-email");
+            mail.removeAttribute("disabled")
+        }
+
+        function mailplus() {
+            console.log("메일플러스 호출")
+            let mailval = document.getElementById("input-email").value
+            const selval = document.getElementById("mail-sel").value
+            let mail = document.getElementById("input-email");
+            let result;
+
+
+            result = (mailval + selval)
+            console.log(result)
+
+            mail.setAttribute("value", result)
+        }
+        function resetmail() {
+            console.log("reset호출")
+            let mail = document.getElementById("input-email");
+            mail.value = null;
+        }
+
+        function changedate() {
+            document.getElementById("input-bir").type = "date";
+        }
+        function changetext() {
+            let bir = document.getElementById("input-bir");
+            if (bir.length == 0 || bir.length == undefined) {
+                bir.type = "text";
+            }
+        }
+        function refresh() {
+            $("input-email").load(window.location.href + "input-email");
+        }
+        function maillen() {
+            let mail = document.getElementById("input-email")
+            let btn = document.getElementById("mail-sel")
+            console.log(mail.value.length)
+            if (mail.value.length > 0) {
+                btn.removeAttribute("disabled");
+            } else {
+                btn.setAttribute("disabled", "disabled")
+            }
+        }
+
+        function setmail() {
+            let name = document.getElementById("mail-result")
+            const selval = document.getElementById("mail-sel").value
+            let mail = document.getElementById("input-email")
+            name.value = selval;
+            if (selval == "@") {
+                name.removeAttribute("disabled")
+            } else {
+                name.setAttribute("disabled", "disabled")
+            }
+        }
+        function pwiconc(){
+           document.getElementById("pwb").className="hss-btn input-group-text btn-secondary bi bi-eye"
+
+        }
+        function pwiconc1(){
+           document.getElementById("pwb").className="hss-btn input-group-text outline-secondary bi bi-eye"
+
+        }
+
+        function con(a) {
+            console.log("a")
+        }
+
+        function adrsee(){
+            document.getElementById("sample6_detailAddress").removeAttribute("disabled")
+        }
+
+       
+    </script>
+</head>
+
+<body>
+
+    <div class="head-title">
+        <p id="title" style=color:gray></p>
+
+        <div class="input-box">
+            <div class="item">
+                <input class="form-control inputbox" id="input-id" onclick="upid()" onkeyup="idc()" onblur="idc()"
+                    type="text" placeholder="ID" maxlength="12">
+                <p class="uptext" id="up-id"></p>
+            </div>
+            <!--
+            <div class="input-group mb-3" >
+                <input type="text" class="form-control " placeholder="비밀번호를 입력하세요." aria-label="Recipient's username">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="bi bi-eye col-2"></i></button>
+              </div>
+              <p class="uptext" id="up-pw">영어와 숫자 1개 이상의 특수문자 8~12자 </p>
+            -->
+
+            <div class="item">
+                <div class="input-group">
+                    <input class="form-control inputbox " id="input-pw" onclick="uppw()" onkeyup="pwc()" onblur="pwc()"
+                        type="password" placeholder="Password" maxlength="12">
+                    <button id="pwb" class="hss-btn input-group-text bi bi-eye" 
+                   
+                         onclick="seepw()"></button>
+                </div>
+                <p class="uptext" id="up-pw"></p>
             </div>
 
+            <div class="item">
+                <div class="input-group">
+                    <input class="form-control inputbox" id="input-repw" onkeyup="repwc()" type="password"
+                        placeholder="Password" maxlength="12">
+                    <button id="repwb" class="hss-btn input-group-text bi bi-eye"
+                    style onclick="seerepw();" type="button"></button>
+                </div>
+                <div class="uptext" id="up-repw"></div>
+
+                <div class="item">
+                    <div class="input-group">
+                        <input class="form-control inputbox" id="input-name" onclick="upname()" onkeyup="namec()"
+                            onblur="namec()" type="text" placeholder="Name" maxlength="12">
+                    </div>
+                    <p class="uptext" id="up-name"></p>
+                </div>
+                <div class="item">
+                    <input class="form-control inputbox" id="input-bir" onclick="upbir(),changedate()" onkeyup="birc()"
+                        onblur="birc(),changetext()" type="text" placeholder="Birth">
+                    <p class="uptext" id="up-bir"></p>
+                </div>
+                <div class="row g-1 form-control item">
+                    <div class="" style="text-align: left" >
+                    <p class="" style="font: size 50px; color:gray">E-mail</p>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group ">
+                            <input  type="text" id="input-email" class=" form-control" placeholder="Mail-Id" maxlength="20"
+                                 onclick="upemail()" onkeypress="maillen(),mailc()" onblur="maillen(),mailc()" onkeyup="mailc()">
+                            <input type="text" id="mail-result" class=" form-control" onkeypress="mailrc()"
+                                disabled="disabled">
+                            <div class="">
+
+                            </div>
+                            <div class="">
+                                <select class="form-control input-group" disabled="disabled"
+                                    id="mail-sel" onchange="setmail(),mailrc()" onclick="maillen()" 
+                                    style="border-top-left-radius: 0;border-bottom-left-radius:0;border: 1;">
+                                    <!---->
+                                    <option selected disabled="disabled" value="">Server </option>
+                                    <option value="@gmail.com">Google </option>
+                                    <option value="@naver.com">Naver </option>
+                                    <option value="@daum.net">Daum </option>
+                                    <option value="@">직접입력</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                        <p class="uptext col-5" id="up-email"></p>
+                        <p class="col-0.5"></p>
+                        <p class="uptext" id="up-mailr"></p>
+
+                    </div>
+                   
+
+
+
+                    </div>
+
+                </div>
+
+
+                <div class="row g-1 form-control item">
+                    <p class="" style="font: size 50px; color:gray; text-align: left;">Mobile</p>
+                    <div class="input-group">
+                    <input type="text" id="tel1" onclick="resettel1()" onkeyup="telc()" onblur="telc()" class="tel form-control input-group" maxlengh="3"></input>
+                    <input type="text" id="tel2" onclick="resettel2()" onkeyup="tel2c()"disabled="disabled" class="tel form-control input-group" maxlength="4" ></input>
+                    <input type="text" id="tel3" onclick="upte3()" onkeyup="tel3c()" disabled="disabled" class="tel form-control input-group" maxlength="4"></input>
+                </div>
+                    <div class="input-group">
+                   <p class="uptext col-4" id="up-tel1"></p>
+                   <p class="uptext col-4" id="up-tel2"></p>
+                   <p class="uptext col-4" id="up-tel3"></p>
+                </div>
+            </div>
+
+
+
+
+            <div class="row g-2 item form-control">
+                <p class="" style="font: size 50px; color:gray; text-align: left;">Address</p>
+            <div class="input-group">
+            <input type="text" class="form-control" id="sample6_postcode" disabled placeholder="우편번호">
+            <input class="input-group-text btn btn-outline-secondary" type="button" onclick="sample6_execDaumPostcode(),adrsee()" 
+            style value="우편번호 찾기">
+        </div>
+        <div class="input-group">
+             <input type="text" class="form-control input-group" id="sample6_address" placeholder="주소"
+             disabled></div>
+            <div class="input-group">
+            <input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" disabled>
+        </div>
+
+
+        <p class="hidden" id="sample6_extraAddress"  placeholder="참고항목"></p>
+        
+    </div>
+            <!--모달 테스트 끝-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Understood</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+      
+
+            </div>
 
         </div>
     </div>
