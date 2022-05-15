@@ -249,7 +249,7 @@ h1, h2, h3, h4, h5, h6 {
   right: 0;
   left: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0.9);
   transition: 0.3s;
   z-index: 999;
   margin-top: 0;
@@ -691,7 +691,7 @@ section .container {
   border-radius: 4px;
 }
 .portfolio #portfolio-flters li:hover, .portfolio #portfolio-flters li.filter-active {
-  background: #050505;
+  background: #ffffff;
 }
 .portfolio #portfolio-flters li:last-child {
   margin-right: 0;
@@ -701,7 +701,7 @@ section .container {
   position: relative;
   overflow: hidden;
   z-index: 1;
-  background: rgba(0, 0, 0,1);
+  background: rgba(0, 0, 0,0.5);
 }
 .portfolio .portfolio-wrap::before {
   content: "";
