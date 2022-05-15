@@ -38,7 +38,7 @@ a {
 }
 
 a:hover {
-  color: #35e888;
+  color: #070707;
   text-decoration: none;
 }
 
@@ -656,7 +656,7 @@ section .container {
   color: #f4f5f7;
 }
 .services .icon-box:hover .icon::before {
-  background: #35e888;
+  background: hsl(0, 0%, 4%);
 }
 .services .icon-box:hover h4 a, .services .icon-box:hover p {
   color: #fff;
@@ -691,7 +691,7 @@ section .container {
   border-radius: 4px;
 }
 .portfolio #portfolio-flters li:hover, .portfolio #portfolio-flters li.filter-active {
-  background: #f4f5f7;
+  background: #050505;
 }
 .portfolio #portfolio-flters li:last-child {
   margin-right: 0;
@@ -701,11 +701,11 @@ section .container {
   position: relative;
   overflow: hidden;
   z-index: 1;
-  background: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0,1);
 }
 .portfolio .portfolio-wrap::before {
   content: "";
-  background: rgba(0, 0, 0, 0);
+  background: rgba(253, 253, 253, 0.5);
   position: absolute;
   left: 30px;
   right: 30px;
@@ -738,8 +738,8 @@ section .container {
   position: absolute;
   top: 35px;
   left: 35px;
-  border-top: 3px solid #fff;
-  border-left: 3px solid #fff;
+  border-top: 3px solid rgb(5, 5, 5);
+  border-left: 3px solid rgb(7, 7, 7);
   transition: all 0.5s ease 0s;
   z-index: 9994;
 }
@@ -751,18 +751,18 @@ section .container {
   position: absolute;
   bottom: 35px;
   right: 35px;
-  border-bottom: 3px solid #fff;
-  border-right: 3px solid #fff;
+  border-bottom: 3px solid rgb(8, 8, 8);
+  border-right: 3px solid rgb(5, 5, 5);
   transition: all 0.5s ease 0s;
   z-index: 9994;
 }
 .portfolio .portfolio-wrap .portfolio-info h4 {
   font-size: 20px;
-  color: #fff;
+  color: rgb(5, 5, 5);
   font-weight: 600;
 }
 .portfolio .portfolio-wrap .portfolio-info p {
-  color: #ffffff;
+  color: #050505;
   font-size: 14px;
   text-transform: uppercase;
   padding: 0;
@@ -773,14 +773,14 @@ section .container {
   z-index: 4;
 }
 .portfolio .portfolio-wrap .portfolio-links a {
-  color: #fff;
+  color: rgb(2, 2, 2);
   margin: 0 2px;
   font-size: 28px;
   display: inline-block;
   transition: 0.3s;
 }
 .portfolio .portfolio-wrap .portfolio-links a:hover {
-  color: #63eda3;
+  color: #070707;
 }
 .portfolio .portfolio-wrap:hover::before {
   top: 0;
@@ -859,7 +859,7 @@ section .container {
   background-color: rgba(255, 255, 255, 0.3);
 }
 .portfolio-details .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: #f4f5f7;
+  background-color: #000000;
 }
 
 /*--------------------------------------------------------------
@@ -983,7 +983,7 @@ section .container {
   border-radius: 4px;
 }
 .contact .php-email-form button[type=submit]:hover {
-  background: #15bb62;
+  background: #050505;
 }
 @-webkit-keyframes animate-loading {
   0% {
